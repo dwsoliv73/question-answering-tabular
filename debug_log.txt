@@ -1,0 +1,102 @@
+Iniciando nova execução
+
+[0] 066_IBM_HR
+Q: Is our average employee older than 35?
+Template: check if average is greater than value
+Args: {'column': 'Age', 'value': 35.0, 'top_n': 35.0, 'filter_column': None, 'filter_value': None, 'group_a': None, 'group_b': None}
+
+[1] 066_IBM_HR
+Q: Is the most frequent travel value rarely traveling?
+Template: get most common value of column
+Args: {'column': 'BusinessTravel', 'value': None, 'top_n': None, 'filter_column': None, 'filter_value': None, 'group_a': None, 'group_b': None}
+
+[2] 066_IBM_HR
+Q: Is the highest DailyRate equal to 1499?
+Template: check if maximum equals value
+Args: {'column': 'DailyRate', 'value': 1499.0, 'top_n': 1499.0, 'filter_column': None, 'filter_value': None, 'group_a': None, 'group_b': None}
+
+[3] 066_IBM_HR
+Q: Is the highest DailyRate negative?
+Template: check if maximum is negative
+Args: {'column': 'DailyRate', 'value': None, 'top_n': None, 'filter_column': None, 'filter_value': None, 'group_a': None, 'group_b': None}
+
+[4] 066_IBM_HR
+Q: Is our research dept bigger than sales?
+Template: compare size of group A vs group B
+Args: {'column': 'Department', 'value': None, 'top_n': None, 'filter_column': 'Department', 'filter_value': 'Research', 'group_a': 'Research', 'group_b': 'Sales'}
+
+[5] 066_IBM_HR
+Q: Is the highest rating given to any performance to 4?
+Template: check if maximum equals value
+Args: {'column': 'PerformanceRating', 'value': 4.0, 'top_n': 4.0, 'filter_column': None, 'filter_value': None, 'group_a': None, 'group_b': None}
+
+[6] 066_IBM_HR
+Q: Are there more employees who travel frequently than those who work in the HR department?
+Template: check if all values in column are equal
+Args: {'column': 'BusinessTravel', 'value': None, 'top_n': None, 'filter_column': None, 'filter_value': None, 'group_a': 'Travel_Frequently', 'group_b': 'Human Resources'}
+
+[7] 066_IBM_HR
+Q: Is the average MonthlyIncome of employees affected by attrition less than those not affected?
+Template: check if average is greater than value
+Args: {'column': 'Age', 'value': None, 'top_n': None, 'filter_column': None, 'filter_value': None, 'group_a': None, 'group_b': None}
+
+[8] 066_IBM_HR
+Q: Is the standard number of working hours the same across all employees?
+Template: check if all values in column are equal
+Args: {'column': 'StandardHours', 'value': None, 'top_n': None, 'filter_column': None, 'filter_value': None, 'group_a': None, 'group_b': None}
+
+[9] 066_IBM_HR
+Q: What is the most common role?
+Template: get most common value of column
+Args: {'column': 'JobRole', 'value': None, 'top_n': None, 'filter_column': None, 'filter_value': None, 'group_a': None, 'group_b': None}
+
+[10] 066_IBM_HR
+Q: Which department has the highest average YearsAtCompany?
+Template: calculate average of column
+Args: {'column': 'YearsAtCompany', 'value': None, 'top_n': None, 'filter_column': 'Department', 'filter_value': None, 'group_a': None, 'group_b': None}
+
+[11] 066_IBM_HR
+Q: What is the least common marital status?
+Template: get least common value of column
+Args: {'column': 'MaritalStatus', 'value': None, 'top_n': None, 'filter_column': None, 'filter_value': None, 'group_a': None, 'group_b': None}
+
+[12] 066_IBM_HR
+Q: What is the most frequent field of education for our employees?
+Template: get most common value of column
+Args: {'column': 'EducationField', 'value': None, 'top_n': None, 'filter_column': None, 'filter_value': None, 'group_a': None, 'group_b': None}
+
+[13] 066_IBM_HR
+Q: Which travel category has the highest average income?
+Template: calculate average of column
+Args: {'column': 'MonthlyIncome', 'value': None, 'top_n': None, 'filter_column': 'BusinessTravel', 'filter_value': None, 'group_a': None, 'group_b': None}
+
+[14] 066_IBM_HR
+Q:  Which gender is most satisfied with the job on average?
+Template: check if average is greater than value
+Args: {'column': 'JobSatisfaction', 'value': None, 'top_n': None, 'filter_column': 'Gender', 'filter_value': None, 'group_a': None, 'group_b': None}
+
+[15] 066_IBM_HR
+Q: What is the most common score given work and life balance?
+Template: get most common value of column
+Args: {'column': 'WorkLifeBalance', 'value': None, 'top_n': None, 'filter_column': None, 'filter_value': None, 'group_a': None, 'group_b': None}
+
+[16] 066_IBM_HR
+Q: Which EducationField do we employ the least?
+Template: get least common value of column
+Args: {'column': 'EducationField', 'value': None, 'top_n': None, 'filter_column': None, 'filter_value': None, 'group_a': None, 'group_b': None}
+
+[17] 066_IBM_HR
+Q: What is the average age of our employees?
+Template: calculate average of column
+Args: {'column': 'Age', 'value': None, 'top_n': None, 'filter_column': None, 'filter_value': None, 'group_a': None, 'group_b': None}
+
+[18] 066_IBM_HR
+Q: What is the total number of different job roles offered by IBM?
+Template: count distinct values of column
+Args: {'column': 'JobRole', 'value': None, 'top_n': None, 'filter_column': None, 'filter_value': None, 'group_a': None, 'group_b': None}
+
+[19] 066_IBM_HR
+Q: What is the maximum years someone has been at IBM?
+Template: get maximum of column
+Args: {'column': 'TotalWorkingYears', 'value': None, 'top_n': None, 'filter_column': None, 'filter_value': None, 'group_a': None, 'group_b': None}
+

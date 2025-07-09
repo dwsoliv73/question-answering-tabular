@@ -1,0 +1,15 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run generate_predictions_lite",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/generate_predictions_lite.py",
+            "console": "integratedTerminal",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        }
+    ]
+}

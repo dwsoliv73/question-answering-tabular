@@ -6,5 +6,13 @@
     "get most common value of column",
     "check if all values in column are equal",
     "compare size of group A vs group B",
-    "check if average is greater than value"
+    "check if average is greater than value",
+    "list values in column",
+    "list rows where column > value",
+    "list rows where column == value",
+    "top N rows by column",
+    "last N rows",
+    "count rows where column > value",
+    "count rows where column == value",
+    "filter column values by category"
 ]
