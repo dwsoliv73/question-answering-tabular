@@ -14,7 +14,7 @@ def generate_predictions_lite(qa_csv_path, base_data_path, template_path, output
     with open("debug_log.txt", "w", encoding="utf-8") as f:
         f.write("Iniciando nova execução\n\n")
     #rode so as primeiras 20 perguntas
-    qa_df = qa_df.head(20)  # Limita a 20 perguntas para teste
+    
     for idx, row in qa_df.iterrows():
         # seu código continua aqui normalmente
 
