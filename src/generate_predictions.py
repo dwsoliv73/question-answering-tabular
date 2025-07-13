@@ -1,96 +1,70 @@
-import json
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import cosine_similarity
-import numpy as np
+import os
+import pandas as pd
+from template_matcher import TemplateMatcher
+from argument_extractor import extract_all_args
+from operation_executor import execute_operation
+from utils import format_answer, debug_info, save_debug_log
 
-def extract_all_args(question, df):
-    question_lower = question.lower()
-    columns = df.columns.tolist()
+def main():
+    # Caminho base do projeto
+    base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
-    keyword_map = {
-        "age": "Age",
-        "income": "MonthlyIncome",
-        "satisfaction": "JobSatisfaction",
-        "education": "EducationField",
-        "research": "Department",
-        "sales": "Department",
-        "distance": "DistanceFromHome",
-        "rating": "PerformanceRating",
-        "reviews": "Reviews",
-        "book": "Book Title",
-        "category": "Category",
-        "page": "Book Length (Pages)",
-        "copy": "Copies Left",
-        "edition": "Edition",
-        "price": "Price (TK)",
-        "wish": "Wished Users",
-        "discount": "Discount Offer",
-        "publication": "Publication",
-        "author": "Author",
-        "contract": "Contract Value",
-        "supplier": "Supplier",
-        "region": "Region",
-        "borrower": "Borrower Country",
-        "procurement": "Procurement Category",
-        "fiscal": "Fiscal Year",
-        "brand": "brands",
-        "store": "stores",
-        "product": "product_name",
-        "country": "countries_en",
-    }
+    # Caminhos dos arquivos
+    qa_path = os.path.join(base_path, "data", "raw", "competition", "test_qa.csv")
+    dataset_base_path = os.path.join(base_path, "data", "raw", "competition")
+    template_path = os.path.join(base_path, "src", "templates.json")
+    output_path = os.path.join(base_path, "predictions.txt")
 
-    column = next((col for key, col in keyword_map.items() if key in question_lower and col in columns), None)
+    # Limpa o log no início
+    save_debug_log("Início da execução\n", reset=True)
 
-    filter_column = None
-    filter_value = None
+    # Leitura das perguntas
+    questions = pd.read_csv(qa_path)
+    matcher = TemplateMatcher(template_path=template_path)
 
-    if "research dept" in question_lower:
-        filter_column = "Department"
-        filter_value = "Research"
-    elif "sales dept" in question_lower:
-        filter_column = "Department"
-        filter_value = "Sales"
+    predictions = []
 
-    if "highest average" in question_lower and "department" in question_lower:
-        column = "YearsAtCompany"
-        filter_column = "Department"
+    for idx, row in questions.iterrows():
+        question = row["question"]
+        dataset_id = row["dataset"]
 
-    if "most frequent field of education" in question_lower:
-        column = "EducationField"
+        dataset_path = os.path.join(dataset_base_path, dataset_id, "all.parquet")
+        if not os.path.exists(dataset_path):
+            save_debug_log(f"[{idx}] Arquivo não encontrado: {dataset_path}")
+            predictions.append("FileNotFound")
+            continue
 
-    if "travel" in question_lower and "rarely traveling" in question_lower:
-        column = "BusinessTravel"
+        try:
+            df = pd.read_parquet(dataset_path)
+        except Exception as e:
+            save_debug_log(f"[{idx}] Erro ao ler {dataset_path}: {e}")
+            predictions.append(f"ReadError")
+            continue
 
-    if column is None:
-        column = extract_best_column_match(question_lower, columns)
+        try:
+            template = matcher.predict_template(question)
+            args = extract_all_args(question, df)
 
-    value = extract_number(question_lower)
-    top_n = value
+            # Log detalhado
+            debug_info(idx, dataset_id, question, template, args, df)
 
-    return {
-        "column": column,
-        "value": value,
-        "top_n": top_n,
-        "filter_column": filter_column,
-        "filter_value": filter_value,
-        "group_a": extract_group(question_lower, group="a"),
-        "group_b": extract_group(question_lower, group="b"),
-    }
+            if args.get("column") and args["column"] not in df.columns:
+                save_debug_log(f"[{idx}] Coluna inválida: {args['column']}")
+                predictions.append("InvalidColumn")
+                continue
 
-def extract_number(text):
-    import re
-    match = re.search(r"\d+\.?\d*", text)
-    return float(match.group()) if match else None
+            answer = execute_operation(template, df, **args)
+            formatted = format_answer(answer)
+            predictions.append(formatted)
 
-def extract_best_column_match(question_lower, columns):
-    for col in columns:
-        if col.lower() in question_lower:
-            return col
-    return None
+        except Exception as e:
+            save_debug_log(f"[{idx}] Erro durante a operação: {e}")
+            predictions.append("Error")
 
-def extract_group(text, group="a"):
-    if group == "a" and "research dept" in text:
-        return "Research"
-    if group == "b" and "sales dept" in text:
-        return "Sales"
-    return None
+    with open(output_path, "w", encoding="utf-8") as f:
+        for p in predictions:
+            f.write(p.strip() + "\n")
+
+
+if __name__ == "__main__":
+    main()
