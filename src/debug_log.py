@@ -22,5 +22,6 @@ def analyze_debug_log(file_path):
 
 
 if __name__ == "__main__":
-    debug_log_path = "debug_log.txt"  # ajuste se necessário
+    debug_log_path = "debug_log.txt"
+ # ajuste se necessário
     analyze_debug_log(debug_log_path)
