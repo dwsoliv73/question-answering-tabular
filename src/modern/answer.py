@@ -1,24 +1,18 @@
 import pandas as pd
 from transformers import pipeline
 
-def pipeline_qa(caminho_modelo_salvo): 
+def pipeline_qa(path_trained_model, df_context): 
   qa_pipeline = pipeline(
       "question-answering",
-      model=caminho_modelo_salvo,
-      tokenizer=caminho_modelo_salvo
+      model=path_trained_model,
+      tokenizer=path_trained_model
   )
 
-  # Use o mesmo contexto que foi usado no treinamento
-  # Vamos recriá-lo a partir do arquivo original
+  for index, row in df_context.iterrows():
+    pergunta = df_context['question'][index]
 
-  #df_data = pd.read_csv("sample.csv")
-  #gcontexto_para_teste = df_data.to_csv(index=False)
+    resultado = qa_pipeline(question=pergunta, context=df_context['answer_text'][index])
 
-  # Faça uma nova pergunta
-  pergunta = "Is the highest DailyRate equal to 1499?"
-
-  resultado = qa_pipeline(question=pergunta, context=pergunta)
-
-  print(f"Pergunta: {pergunta}")
-  print(f"Resposta: {resultado['answer']}")
-  print(f"Score de Confiança: {resultado['score']:.4f}")
+    #print(f"Pergunta: {pergunta}")
+    print(f"{resultado['answer']}")
+    #print(f"Score de Confiança: {resultado['score']:.4f}")

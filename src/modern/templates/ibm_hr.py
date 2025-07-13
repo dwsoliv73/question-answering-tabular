@@ -93,6 +93,7 @@ def hr_ibm_to_json(df_data, df_questions):
   context = df_data.to_csv(index=False)
   questions_to_process = df_questions
   results = []
+  rows = []
 
   for index, row in questions_to_process.iterrows():
     question = row['question']
@@ -109,6 +110,8 @@ def hr_ibm_to_json(df_data, df_questions):
 
 
     # Apenas adicionar ao dataset se a resposta for encontrada no contexto
+  
+    rows.append({'question': question, 'answer_text': answer_text})
     if answer_start != -1:
       results.append({
           "context": context,
@@ -121,12 +124,13 @@ def hr_ibm_to_json(df_data, df_questions):
     else:
       print(f"AVISO: A resposta '{answer_text}' para a pergunta '{question}' não foi encontrada no contexto CSV. O par será ignorado.")
       
-  output_filename = 'dataset_qa_para_distilbert.json'
+  output_filename = 'dataset_qa_066.json'
   
   final_output = {"data": results}
-  
+  df = pd.DataFrame(rows)
   with open(output_filename, 'w', encoding='utf-8') as f:
       json.dump(final_output, f, ensure_ascii=False, indent=4)
-
+      
   print(f"\nProcesso concluído! Dataset salvo em '{output_filename}'.")
   print(f"Total de {len(results)} pares de QA válidos gerados.")
+  return df
