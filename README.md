@@ -1,15 +1,13 @@
 ---
-
 ## 🧠 Question Answering com Técnica Clássica de PLN
 
 Este projeto resolve perguntas sobre tabelas (`.parquet`) usando uma pipeline baseada em técnicas clássicas de Processamento de Linguagem Natural (PLN), como **TF-IDF**, **regras heurísticas** e **execução programática com pandas**.
-
 ---
 
 ### ✅ Pré-requisitos
 
-* Python 3.11+
-* Instalar dependências:
+- Python 3.11+
+- Instalar dependências:
 
 ```bash
 pip install -r requirements.txt
@@ -28,6 +26,13 @@ project/
 │               └── all.parquet
 │           └── test_qa.csv
 ├── src/
+    └── modern/
+        └── templates/
+            └── ibm_hr.py
+        ├── main.py
+        ├── train.py
+        ├── prediction.py
+        ├── predictions.txt
 │   ├── generate_predictions.py
 │   ├── argument_extractor.py
 │   ├── operation_executor.py
@@ -50,11 +55,11 @@ project/
 python src/generate_predictions.py
 ```
 
-* Isso percorre cada pergunta do `test_qa.csv`, identifica o dataset correspondente e gera uma resposta.
-* As respostas são salvas em `predictions.txt`.
-* Um log completo da execução é salvo em `debug_log.txt`.
+- Isso percorre cada pergunta do `test_qa.csv`, identifica o dataset correspondente e gera uma resposta.
+- As respostas são salvas em `predictions.txt`.
+- Um log completo da execução é salvo em `debug_log.txt`.
 
-📷 *Sugestão de print*: terminal com execução e exemplos de erros/sucessos do `debug_log.txt`.
+📷 _Sugestão de print_: terminal com execução e exemplos de erros/sucessos do `debug_log.txt`.
 
 ---
 
@@ -64,15 +69,15 @@ python src/generate_predictions.py
 python src/clean_predictions.py
 ```
 
-* Entrada: `predictions.txt`
-* Saída: `predictions_clean.txt` com respostas limpas e padronizadas:
+- Entrada: `predictions.txt`
+- Saída: `predictions_clean.txt` com respostas limpas e padronizadas:
 
-  * Boolean: `True`, `False`
-  * Number: `31.5`
-  * Category: `Manager`
-  * List: `["cat", "dog"]` ou `[23.5, 12.0]`
+  - Boolean: `True`, `False`
+  - Number: `31.5`
+  - Category: `Manager`
+  - List: `["cat", "dog"]` ou `[23.5, 12.0]`
 
-📷 *Sugestão de print*: `predictions_clean.txt` com respostas bem formatadas.
+📷 _Sugestão de print_: `predictions_clean.txt` com respostas bem formatadas.
 
 ---
 
@@ -82,11 +87,11 @@ python src/clean_predictions.py
 python src/evaluate_predictions_format.py
 ```
 
-* Mostra estatísticas como:
+- Mostra estatísticas como:
 
-  * Quantidade de respostas booleanas, numéricas, listas, inválidas etc.
+  - Quantidade de respostas booleanas, numéricas, listas, inválidas etc.
 
-📷 *Sugestão de print*: terminal com a análise do formato (output do script).
+📷 _Sugestão de print_: terminal com a análise do formato (output do script).
 
 ---
 
@@ -96,27 +101,36 @@ python src/evaluate_predictions_format.py
 python src/debug_log.py
 ```
 
-* Verifica quantas perguntas falharam por `column = None`.
-* Ajuda a diagnosticar falhas na extração de argumentos.
+- Verifica quantas perguntas falharam por `column = None`.
+- Ajuda a diagnosticar falhas na extração de argumentos.
 
-📷 *Sugestão de print*: estatística de acertos vs erros (coluna ausente, execução falha).
+📷 _Sugestão de print_: estatística de acertos vs erros (coluna ausente, execução falha).
 
 ---
 
+#### 4. **Técnica Moderna com DistilBERT**
+
+```bash
+cd src/modern
+```
+
+```bash
+python main.py
+```
+
 ### 💡 Técnica Clássica Utilizada
 
-* **TemplateMatcher**: regras heurísticas + TF-IDF para identificar o tipo da pergunta.
-* **ArgumentExtractor**: busca colunas e valores mencionados na pergunta.
-* **OperationExecutor**: executa a operação correta no DataFrame.
-* **Logs**: debug completo de cada execução salvo em `debug_log.txt`.
+- **TemplateMatcher**: regras heurísticas + TF-IDF para identificar o tipo da pergunta.
+- **ArgumentExtractor**: busca colunas e valores mencionados na pergunta.
+- **OperationExecutor**: executa a operação correta no DataFrame.
+- **Logs**: debug completo de cada execução salvo em `debug_log.txt`.
 
 ---
 
 ### 📈 Resultados Observados
 
-* Respostas válidas em mais de **80% das perguntas** (formato).
-* Pipeline robusta, com fallback em caso de erro.
-* Técnica clássica ideal para perguntas diretas e datasets limpos.
+- Respostas válidas em mais de **80% das perguntas** (formato).
+- Pipeline robusta, com fallback em caso de erro.
+- Técnica clássica ideal para perguntas diretas e datasets limpos.
 
 ---
-
