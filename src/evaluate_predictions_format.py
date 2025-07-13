@@ -55,4 +55,4 @@ def evaluate_format(file_path):
 
 
 if __name__ == "__main__":
-    evaluate_format("predictions_clean.txt")  # ajuste se necessário
+    evaluate_format("../predictions_clean.txt")  # ajuste se necessário
