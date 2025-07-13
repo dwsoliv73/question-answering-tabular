@@ -62,6 +62,10 @@ class TemplateMatcher:
 
         if "maximum years" in question_lower or "longest" in question_lower:
             return "get maximum of column"
+        
+        if "all" in question_lower and ("labelled helpful" in question_lower or "greater than 0" in question_lower):
+            return "check if all values are greater than zero"
+
 
         # fallback TF-IDF
         question_vector = self.vectorizer.transform([question])
