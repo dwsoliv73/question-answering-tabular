@@ -5,28 +5,28 @@ def execute_operation(template, df, column, value=None, top_n=None,
                       group_a=None, group_b=None):
     try:
         if template == "calculate average of column":
-            return df[column].mean()
+            return pd.to_numeric(df[column], errors='coerce').mean()
 
         elif template == "get maximum of column":
-            return df[column].max()
+            return pd.to_numeric(df[column], errors='coerce').max()
 
         elif template == "get minimum of column":
-            return df[column].min()
+            return pd.to_numeric(df[column], errors='coerce').min()
 
         elif template == "calculate median of column":
-            return df[column].median()
+            return pd.to_numeric(df[column], errors='coerce').median()
 
         elif template == "calculate range of column":
-            return df[column].max() - df[column].min()
+            return pd.to_numeric(df[column], errors='coerce').max() - pd.to_numeric(df[column], errors='coerce').min()
 
         elif template == "sum column":
-            return df[column].sum()
+            return pd.to_numeric(df[column], errors='coerce').sum()
 
         elif template == "check if maximum equals value":
-            return df[column].max() == value
+            return pd.to_numeric(df[column], errors='coerce').max() == value
 
         elif template == "check if maximum is negative":
-            return df[column].max() < 0
+            return pd.to_numeric(df[column], errors='coerce').max() < 0
 
         elif template == "get most common value of column":
             return df[column].mode().iloc[0] if not df[column].mode().empty else "Invalid"
@@ -37,6 +37,10 @@ def execute_operation(template, df, column, value=None, top_n=None,
 
         elif template == "check if all values in column are equal":
             return df[column].nunique() == 1
+        
+        elif template == "check if all values are greater than zero":
+            return (df[column] > 0).all()
+
 
         elif template == "compare size of group A vs group B":
             if not group_a or not group_b or not filter_column:
@@ -48,7 +52,7 @@ def execute_operation(template, df, column, value=None, top_n=None,
         elif template == "check if average is greater than value":
             if value is None:
                 return "Invalid"
-            return df[column].mean() > value
+            return pd.to_numeric(df[column], errors='coerce').mean() > value
 
         elif template == "list values in column":
             return str(df[column].tolist())
