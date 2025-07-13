@@ -115,6 +115,9 @@ def apply_contextual_rules(question_lower, column, filter_column, columns):
         return "EducationField", filter_column
     if "longest time" in question_lower and "promotion" in question_lower:
         return "YearsSinceLastPromotion", filter_column
+    if "labelled helpful" in question_lower or "marked helpful" in question_lower:
+        return "num_helpful_votes", filter_column
+
     return column, filter_column
 
 def extract_best_column_match(question_lower, columns):
