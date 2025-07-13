@@ -101,15 +101,6 @@ def hr_ibm_to_json(df_data, df_questions):
     answer_text = str(responder_perguntas_hr(question, df_data))
     context = question + " " + answer_text
     answer_start = context.find(answer_text)
-    # Pular perguntas sem lógica implementada
-    # if answer_text is None or "não foi implementada" in answer_text:
-    #     continue
-    
-    # --- ETAPA 3: ENCONTRAR O ÍNDICE DA RESPOSTA ---
-    # Encontrar a posição inicial da resposta dentro do nosso contexto de texto
-
-
-    # Apenas adicionar ao dataset se a resposta for encontrada no contexto
   
     rows.append({'question': question, 'answer_text': answer_text})
     if answer_start != -1:
@@ -121,8 +112,6 @@ def hr_ibm_to_json(df_data, df_questions):
             "answer_start": [answer_start]
           }
       })
-    else:
-      print(f"AVISO: A resposta '{answer_text}' para a pergunta '{question}' não foi encontrada no contexto CSV. O par será ignorado.")
       
   output_filename = 'dataset_qa_066.json'
   
@@ -131,6 +120,5 @@ def hr_ibm_to_json(df_data, df_questions):
   with open(output_filename, 'w', encoding='utf-8') as f:
       json.dump(final_output, f, ensure_ascii=False, indent=4)
       
-  print(f"\nProcesso concluído! Dataset salvo em '{output_filename}'.")
-  print(f"Total de {len(results)} pares de QA válidos gerados.")
+  print(f"\nDataset salvo em '{output_filename}'.")
   return df
